@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import 'tailwind-scrollbar-hide/v4';
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
