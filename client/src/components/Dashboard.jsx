@@ -1,9 +1,13 @@
+import React, {useState,useRef} from 'react'
 import backgroundImage from '../assets/dashboardBG.png';
 import {PieChart, Pie, Cell, Label} from 'recharts';
 import { useNavigate } from "react-router-dom";
+import css from './EditableInput.module.scss';
+import PropTypes from 'prop-types'
+import { PencilFill } from 'react-bootstrap-icons';
 
 
-function Dashboard() {
+function Dashboard({value: initialValue, type = '', ...props}) {
  
   const data = [
     { name: 'Category A', value: 900 },
@@ -14,6 +18,20 @@ function Dashboard() {
   const COLORS = ['#307044', '#aaaaaa'];
 
   const navigate = useNavigate();
+
+  const [value, setValue] = useState(initialValue);
+
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  function turnOnEditMode(){
+    setIsEditMode(true);
+    inputRef.current.focus();
+  }
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const inputRef = useRef(null);
 
     return (
       <div className="absolute inset-0">
@@ -62,8 +80,7 @@ function Dashboard() {
             <div className="absolute top-20 right-30 rounded-[40px] p-6 shadow-lg
               text-[48px] text-center hover:scale-105"
               style={{ backgroundColor: 'rgba(0, 103, 9, 0.66)', height: '20vh', width: '40%'}}
-              // CHANGE TO AISHWARYA'S PAGE
-              onClick={() => navigate('/')}>
+              onClick={() => navigate('/calculator')}>
                 Create / Edit Budget
             </div>
 
@@ -71,7 +88,6 @@ function Dashboard() {
             <div className="absolute top-80 left-12 rounded-[40px] p-6 shadow-lg
               text-[30px] text-center flex items-center hover:scale-105"
               style={{ backgroundColor: 'rgba(245, 245, 245, 0.55)', height: '200px', width: '200px'}}
-              // CHANGE TO AISHWARYA'S PAGE
               onClick={() => navigate('/')}>
                 Travel Buddies
             </div>
@@ -116,14 +132,45 @@ function Dashboard() {
           <div className="flex rounded-[50px] p-6 ml-18 mt-5 relative"
             style={{ backgroundColor: 'rgba(0, 103, 9, 0.45)', height: '85vh', width: '40%'}}  
           >
-            <div className="absolute top-20 left-18 rounded-[40px] shadow-lg
-              text-center"
-              style={{ backgroundColor: 'rgba(5, 66, 10, 0.35)', height: '200px', width: '75%'}}
+            <div
+              className="absolute top-20 left-18 rounded-[40px] shadow-lg text-center"
+              style={{ backgroundColor: 'rgba(5, 66, 10, 0.35)', height: '200px', width: '75%' }}
             >
-              <h1 className="text-[70px]"  style={{fontWeight: 'bold'}}>
-                Trip Title
-              </h1>
-              <h2>
+              
+              <div className={`flex justify-between items-center px-6 py-4 w-full h-full ${css.wrapper}`}>
+
+                <span className="css.input text-[70px]"  style={{fontWeight: 'bold'}}>
+                  <input
+                    type={type}
+                    value={value}
+                    autoFocus
+                    readOnly={!isEditMode}
+                    onChange={handleChange}
+                    onClick={turnOnEditMode}
+                    className="w-full text-[40px] font-bold bg-transparent outline-none"
+                    style={{ maxWidth: 'calc(100% - 50px)' }}
+                    placeholder="Iconic Trip Title"
+                    ref={inputRef}
+                    onBlur={() => setIsEditMode(false)}
+                    {...props}
+                  />
+                </span>
+                
+                <div 
+                  className={`bg-lime-500 hover:bg-lime-600 p-3 rounded-full shadow-lg ${css.button}`} 
+                  onClick={turnOnEditMode}
+                >
+                  <PencilFill 
+                    size={24} 
+                  />
+                </div>
+
+
+                <button>
+
+                </button>
+              </div>
+              {/* <h2>
                 Date:
               </h2>
               <h2>
@@ -131,7 +178,7 @@ function Dashboard() {
               </h2>
               <h2>
                 Documents:
-              </h2>
+              </h2> */}
             </div>
             <div className="absolute top-80 left-18 rounded-[40px] p-6 shadow-lg
               text-center"
@@ -165,6 +212,10 @@ function Dashboard() {
         </div>
       </div>
     );
+}
+
+Dashboard.propTypes = {
+  value: PropTypes.string
 }
 
 export default Dashboard;
