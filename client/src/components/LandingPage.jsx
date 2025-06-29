@@ -15,7 +15,7 @@ function LandingPage(){
       }}>
       <img
         src={buttonImage}
-        onClick={() => navigate('/home-page')}
+        onClick={() => navigate('/trips')}
         className="absolute left-150 top-0 h-55 cursor-pointer transform hover:scale-105 transition duration-500"
       />
       <div className="h-screen flex justify-center" 

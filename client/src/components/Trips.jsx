@@ -16,7 +16,7 @@ export default function Trips() {
                 </div>
                 <div className="w-1/2 h-full flex flex-col items-center gap-10 pl-4">
                     <h1 className="text-4xl">Travel Plans</h1>
-                    <Button text={"Create A Trip "} link={"/"} >
+                    <Button text={"Create A Trip "} link={"/dashboard"} >
                         <PlusCircle />
                     </Button>
                     <h2>Current Trips</h2>
